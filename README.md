@@ -9,3 +9,5 @@ gemini:需修改
 chatgpt:不行  
 claude:不行  
 以上为官网测试,第三方/api全都能干穿
+
+## 图片展示
