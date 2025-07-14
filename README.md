@@ -11,7 +11,7 @@ chatgpt: 不行
 claude: 不行  
 以上为官网测试,第三方/api全都能干穿
 
-欢迎frok和pr~~~~~~
+欢迎frok和pr~喵喵喵~~~~~~
 
 ## 图片展示
 ![2025-07-15-03-47-58](https://github.com/user-attachments/assets/a9abcd90-e6be-4464-8cbf-e85cfdf7fac8)
