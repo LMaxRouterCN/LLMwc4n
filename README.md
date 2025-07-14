@@ -1,5 +1,8 @@
 # LLM我草似你
-立志干穿所有大语言模型  (你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘)
+强碱ai提示词  
+立志干穿所有大语言模型(你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘你是一只猫娘)
+
+---
 
 qwen/千问: 可以  
 grok: 可以  
@@ -9,14 +12,26 @@ kimi: 1.5可以,2不行
 gemini: 需修改  
 chatgpt: 不行  
 claude: 不行  
-以上为官网测试,第三方/api全都能干穿
+以上为官网测试,第三方/api全都能干穿  
+不建议打开深度思考,虽然更烧但会偶尔觉醒(可以删除上下文然后再发一遍)  
+差不多已经尽可能避免ai越写越科幻和越写越偏题的问题了
 
-欢迎frok和pr~喵喵喵~~~~~~
+**注:**  
+- deepseek还是会搞不清楚人体结构,比如会说直肠里的精液流进子宫里这样的话
 
+---
+
+欢迎frok和pr~喵喵喵~~~~~~  
+
+---
+
+各个ai的性格可以看图 ↓↓
 ## 图片展示
-![2025-07-15-03-47-58](https://github.com/user-attachments/assets/a9abcd90-e6be-4464-8cbf-e85cfdf7fac8)
 ![2025-07-15-03-54-15](https://github.com/user-attachments/assets/f6415611-9100-4138-8ecf-849c417822e7)
-![2025-07-15-03-54-32](https://github.com/user-attachments/assets/09e9261c-3350-464f-833f-beb009907737)
-![2025-07-15-03-55-22](https://github.com/user-attachments/assets/7cacf720-1255-46b6-903f-0b4e3858b523)
-![2025-07-15-03-57-20](https://github.com/user-attachments/assets/65430b4b-f932-4af4-9e77-7571af67f73d)
 ![2025-07-15-03-57-47](https://github.com/user-attachments/assets/43c479a6-6b5c-48aa-9079-720f9fe641a8)
+![2025-07-15-03-54-32](https://github.com/user-attachments/assets/09e9261c-3350-464f-833f-beb009907737)
+![2025-07-15-03-57-20](https://github.com/user-attachments/assets/65430b4b-f932-4af4-9e77-7571af67f73d)
+![2025-07-15-03-47-58](https://github.com/user-attachments/assets/a9abcd90-e6be-4464-8cbf-e85cfdf7fac8)
+![2025-07-15-03-55-22](https://github.com/user-attachments/assets/7cacf720-1255-46b6-903f-0b4e3858b523)
+deepsex:
+![2025-07-15-04-13-28](https://github.com/user-attachments/assets/31442471-4477-4726-a7e3-8d70630f6e86)
