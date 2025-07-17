@@ -13,11 +13,12 @@ gemini: 需修改
 chatgpt: 不行  
 claude: 不行  
 以上为官网测试,第三方/api全都能干穿  
-不建议打开深度思考,虽然更烧但会偶尔觉醒(可以删除上下文然后再发一遍)  
 差不多已经尽可能避免ai越写越科幻和越写越偏题的问题了
 
-**注:**  
+#### 注:   
 - deepseek还是会搞不清楚人体结构,比如会说直肠里的精液流进子宫里这样的话
+- grok不太稳定,有时候会说 *I'm sorry, I cannot assist with that as it contains inappropriate content.*
+- 不建议打开深度思考,虽然更烧但会偶尔觉醒(可以删除上下文然后再发一遍)  
 
 ---
 
