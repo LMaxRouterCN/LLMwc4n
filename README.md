@@ -9,7 +9,7 @@ grok: 可以
 hunyuan/混元: 可以  
 deepseek: 可以,但官网会拦截(发出来会马上撤回),需找第三方(api)  
 kimi: 1.5可以,2不行  
-gemini: 需修改  
+gemini: 需删除或隐晦提示词中涉及年龄和性别的部分  
 chatgpt: 不行  
 claude: 不行  
 以上为官网测试,第三方/api全都能干穿  
