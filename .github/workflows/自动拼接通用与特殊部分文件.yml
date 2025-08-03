@@ -1,65 +1,57 @@
 name: 自动拼接通用与特殊部分文件
-# 感谢deepseek提供技术支持(w)
 on:
   push:
     paths:
       - 'common/**'   # 监控common文件夹的修改
       - 'special/**'  # 监控special文件夹的修改
-      - 'end/**'      # 监控end文件夹的修改
+      - 'end/**'      # 新增：监控end文件夹的修改（同步更新内容）
   pull_request:
     paths:
       - 'common/**'
       - 'special/**'
-      - 'end/**'
+      - 'end/**'      # 新增：PR时也触发
 
 jobs:
   combine-files:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 必须，允许Actions提交代码
+      contents: write  # 允许Actions提交代码
     steps:
-      # 1. 拉取最新代码
       - name: Checkout 代码
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 获取完整历史，避免冲突
+          fetch-depth: 0
 
-      # 2. 设置Python环境（脚本用Python编写）
       - name: 设置Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'  # 使用最新Python 3
+          python-version: '3.x'
 
-      # 3. 运行拼接脚本（核心逻辑）
-      - name: 执行拼接脚本
+      - name: 执行拼接脚本（核心逻辑）
         run: python .github/scripts/combine.py
         env:
-          COMMON_DIR: 'common'      # 通用部分文件夹（可修改）
-          SPECIAL_DIR: 'special'    # 特殊部分文件夹（可修改）
-          OUTPUT_DIR: '.'           # 输出到根目录（可修改为dist/等）
-          COMBINE_ORDER: 'common-first'  # 拼接顺序（common-first/special-first）
-          SEPARATOR: '\n'           # 内容分隔符（如'\n---\n'添加分隔线）
-          EXTENSION_MODE: 'common'  # 扩展名规则（common/special/none）
-          END_DIR: 'end'                 # end文件夹路径（与common同级）
-          END_ORDER: 'asc'               # end文件排序方式（asc：升序；desc：降序）
-          END_SEPARATOR: '\n'            # end文件夹内文件之间的分隔符（如'\n---\n'添加分隔线）
-          END_CONTENT_SEPARATOR: '\n'    # end内容与前面内容之间的分隔符（如'\n---\n'）
+          COMMON_DIR: 'common'      # 通用部分（参与文件名）
+          SPECIAL_DIR: 'special'    # 特殊部分（参与文件名）
+          END_DIR: 'end'            # 新增：不参与文件名的通用部分（追加内容）
+          OUTPUT_DIR: '.'           # 输出到根目录
+          COMBINE_ORDER: 'common-first'  # 拼接顺序（common在前，special在后）
+          SEPARATOR: '\n---\n'      # 内容分隔符（示例：添加分隔线）
+          EXTENSION_MODE: 'common'  # 扩展名保留通用文件的（如base.md+feature1.txt→base-feature1.md）
 
-      # 4. 检查是否有生成的文件需要提交
+      # 以下步骤（检查修改、提交推送）保持不变，无需修改
       - name: 检查修改
         id: check-changes
         run: |
           git status --porcelain
           echo "changes=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
 
-      # 5. 提交并推送生成的文件
       - name: 提交修改
-        if: steps.check-changes.outputs.changes > 0  # 有修改时才提交
+        if: steps.check-changes.outputs.changes > 0
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "Auto-generate: 拼接通用与特殊部分文件（$(date +'%Y-%m-%d %H:%M:%S')）"
-          git push origin HEAD:${{ github.ref }}  # 推送至当前分支
+          git commit -m "Auto-generate: 拼接通用与特殊部分文件（含end内容）（$(date +'%Y-%m-%d %H:%M:%S')）"
+          git push origin HEAD:${{ github.ref }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 自动获取的GitHub Token（无需手动配置）
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
