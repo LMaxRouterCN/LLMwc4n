@@ -35,7 +35,7 @@ jobs:
           END_DIR: 'end'
           OUTPUT_DIR: '.'
           COMBINE_ORDER: 'common-first'
-          SEPARATOR: ''  # 示例：两个换行（生成空行）
+          SEPARATOR: ''  # 示例：\n\n: 两个换行（生成空行）
           EXTENSION_MODE: 'common'
 
       - name: 检查修改
