@@ -1,13 +1,16 @@
 name: 自动拼接通用与特殊部分文件
+# 感谢deepseek提供技术支持(w)
 on:
   push:
     paths:
       - 'common/**'   # 监控common文件夹的修改
       - 'special/**'  # 监控special文件夹的修改
+      - 'end/**'      # 监控end文件夹的修改
   pull_request:
     paths:
       - 'common/**'
       - 'special/**'
+      - 'end/**'
 
 jobs:
   combine-files:
@@ -37,6 +40,10 @@ jobs:
           COMBINE_ORDER: 'common-first'  # 拼接顺序（common-first/special-first）
           SEPARATOR: '\n'           # 内容分隔符（如'\n---\n'添加分隔线）
           EXTENSION_MODE: 'common'  # 扩展名规则（common/special/none）
+          END_DIR: 'end'                 # end文件夹路径（与common同级）
+          END_ORDER: 'asc'               # end文件排序方式（asc：升序；desc：降序）
+          END_SEPARATOR: '\n'            # end文件夹内文件之间的分隔符（如'\n---\n'添加分隔线）
+          END_CONTENT_SEPARATOR: '\n'    # end内容与前面内容之间的分隔符（如'\n---\n'）
 
       # 4. 检查是否有生成的文件需要提交
       - name: 检查修改
