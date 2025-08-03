@@ -1,6 +1,31 @@
 import os
 import sys
 
+def get_end_content(end_dir, end_order, end_separator):
+    """读取并合并end文件夹下的内容（不参与文件名命名）"""
+    if not os.path.exists(end_dir):
+        return ""  # 文件夹不存在，返回空字符串
+    # 获取end文件夹下的所有文件（排除子文件夹）
+    end_files = [f for f in os.listdir(end_dir) if os.path.isfile(os.path.join(end_dir, f))]
+    if not end_files:
+        return ""  # 无文件，返回空字符串
+    # 按指定顺序排序（asc：升序；desc：降序）
+    if end_order == "desc":
+        end_files.sort(reverse=True)
+    else:
+        end_files.sort()  # 默认升序
+    # 读取每个文件的内容（去除首尾空白）
+    end_content_list = []
+    for file_name in end_files:
+        file_path = os.path.join(end_dir, file_name)
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                end_content_list.append(f.read().strip())
+        except Exception as e:
+            print(f"警告：无法读取end文件'{file_path}'：{e}", file=sys.stderr)
+    # 用分隔符连接所有end内容
+    return end_separator.join(end_content_list)
+
 def main():
     # 从环境变量获取配置（默认值为 fallback）
     common_dir = os.getenv('COMMON_DIR', 'common')
@@ -9,12 +34,20 @@ def main():
     combine_order = os.getenv('COMBINE_ORDER', 'common-first')  # 拼接顺序
     separator = os.getenv('SEPARATOR', '\n').replace('\\n', '\n')  # 内容分隔符（处理转义）
     extension_mode = os.getenv('EXTENSION_MODE', 'common')  # 扩展名规则
+    end_dir = os.getenv("END_DIR", "end")
+    end_order = os.getenv("END_ORDER", "asc")
+    end_separator = os.getenv("END_SEPARATOR", "\n").replace("\\n", "\n")
+    end_content_separator = os.getenv("END_CONTENT_SEPARATOR", "\n").replace("\\n", "\n")
+
 
     # 校验目录是否存在
     for dir_path in [common_dir, special_dir]:
         if not os.path.exists(dir_path):
             print(f"Error: 目录'{dir_path}'不存在，请检查配置。", file=sys.stderr)
             sys.exit(1)
+
+    # 生成end内容（合并end文件夹下的所有文件）
+    merged_end_content = get_end_content(end_dir, end_order, end_separator)
 
     # 创建输出目录（若不存在）
     os.makedirs(output_dir, exist_ok=True)
@@ -45,21 +78,14 @@ def main():
             new_filename = f"{common_name}-{special_name}{new_ext}"
             new_path = os.path.join(output_dir, new_filename)
 
-            # 读取文件内容（处理编码问题）
-            try:
-                with open(common_path, 'r', encoding='utf-8') as f:
-                    common_content = f.read().strip()  # 去除首尾空白（可选）
-                with open(special_path, 'r', encoding='utf-8') as f:
-                    special_content = f.read().strip()  # 去除首尾空白（可选）
-            except Exception as e:
-                print(f"Error 读取文件'{common_file}'或'{special_file}'：{e}", file=sys.stderr)
-                continue
-
             # 拼接内容（根据顺序调整）
             if combine_order == 'special-first':
                 combined_content = f"{special_content}{separator}{common_content}"
             else:  # 默认common-first
                 combined_content = f"{common_content}{separator}{special_content}"
+            # 新增：添加end内容（放在末尾）
+            if merged_end_content:
+                combined_content += f"{end_content_separator}{merged_end_content}"
 
             # 写入新文件（覆盖旧文件）
             try:
