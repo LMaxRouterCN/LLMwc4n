@@ -2,20 +2,20 @@ name: 自动拼接通用与特殊部分文件
 on:
   push:
     paths:
-      - 'common/**'   # 监控common文件夹的修改
-      - 'special/**'  # 监控special文件夹的修改
-      - 'end/**'      # 新增：监控end文件夹的修改（同步更新内容）
+      - 'common/**'
+      - 'special/**'
+      - 'end/**'
   pull_request:
     paths:
       - 'common/**'
       - 'special/**'
-      - 'end/**'      # 新增：PR时也触发
+      - 'end/**'
 
 jobs:
   combine-files:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 允许Actions提交代码
+      contents: write
     steps:
       - name: Checkout 代码
         uses: actions/checkout@v4
@@ -27,18 +27,17 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: 执行拼接脚本（核心逻辑）
+      - name: 执行拼接脚本
         run: python .github/scripts/combine.py
         env:
-          COMMON_DIR: 'common'      # 通用部分（参与文件名）
-          SPECIAL_DIR: 'special'    # 特殊部分（参与文件名）
-          END_DIR: 'end'            # 新增：不参与文件名的通用部分（追加内容）
-          OUTPUT_DIR: '.'           # 输出到根目录
-          COMBINE_ORDER: 'common-first'  # 拼接顺序（common在前，special在后）
-          SEPARATOR: '\n.\n'      # 内容分隔符（示例：添加分隔线）
-          EXTENSION_MODE: 'common'  # 扩展名保留通用文件的（如base.md+feature1.txt→base-feature1.md）
+          COMMON_DIR: 'common'
+          SPECIAL_DIR: 'special'
+          END_DIR: 'end'
+          OUTPUT_DIR: '.'
+          COMBINE_ORDER: 'common-first'
+          SEPARATOR: '\n\n'  # 示例：设置为两个换行（将生成空行）
+          EXTENSION_MODE: 'common'
 
-      # 以下步骤（检查修改、提交推送）保持不变，无需修改
       - name: 检查修改
         id: check-changes
         run: |
@@ -51,7 +50,7 @@ jobs:
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "Auto-generate: 拼接通用与特殊部分($(date +'%Y-%m-%d %H:%M:%S'))"
+          git commit -m "Auto-generate: 拼接通用与特殊部分文件($(date +'%Y-%m-%d %H:%M:%S'))"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
