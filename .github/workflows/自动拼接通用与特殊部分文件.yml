@@ -38,7 +38,7 @@ jobs:
           SEPARATOR: ''      # 内容分隔符（示例：添加分隔线:\n---\n）
           EXTENSION_MODE: 'common'  # 扩展名保留通用文件的（如base.md+feature1.txt→base-feature1.md）
 
-      # 以下步骤（检查修改、提交推送）保持不变，无需修改
+      # 检查修改、提交推送
       - name: 检查修改
         id: check-changes
         run: |
