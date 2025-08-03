@@ -5,10 +5,11 @@ def main():
     # 从环境变量获取配置（支持自定义）
     common_dir = os.getenv('COMMON_DIR', 'common')  # 参与文件名的通用部分
     special_dir = os.getenv('SPECIAL_DIR', 'special')# 参与文件名的特殊部分
-    end_dir = os.getenv('END_DIR', 'end')            # 新增：不参与文件名的通用部分（追加内容）
+    end_dir = os.getenv('END_DIR', 'end')            # 不参与文件名的通用部分（追加内容）
     output_dir = os.getenv('OUTPUT_DIR', '.')        # 输出到根目录
     combine_order = os.getenv('COMBINE_ORDER', 'common-first')  # 拼接顺序
-    separator = os.getenv('SEPARATOR', '\n').replace('\\n', '\n')  # 内容分隔符（处理转义）
+    # 修复分隔符转义：保留原始换行（如'\n\n'→两个换行，'\n---\n'→换行+---+换行）
+    separator = os.getenv('SEPARATOR', '\n').replace('\\n', '\n')  
     extension_mode = os.getenv('EXTENSION_MODE', 'common')  # 扩展名规则
 
     # 校验核心目录是否存在（common/special必须存在，end可选）
@@ -18,7 +19,7 @@ def main():
             sys.exit(1)
 
     # ------------------------------
-    # 新增：读取end文件夹的内容（合并所有文件）
+    # 新增：读取end文件夹的内容（保留原始排版）
     # ------------------------------
     end_content = ""
     if os.path.exists(end_dir):
@@ -29,12 +30,12 @@ def main():
             if os.path.isfile(end_path):
                 try:
                     with open(end_path, 'r', encoding='utf-8') as f:
-                        # 每个end文件内容添加分隔符（避免内容粘连）
-                        end_content += f.read().strip() + separator
+                        # 保留end文件的原始内容（不做strip），并添加分隔符
+                        end_content += f.read() + separator
                 except Exception as e:
                     print(f"Warning: 读取end文件'{end_file}'失败：{e}", file=sys.stderr)
-        # 去除末尾多余的分隔符
-        end_content = end_content.rstrip(separator)
+        # 【移除】删除末尾多余分隔符（保留原始排版）
+        # end_content = end_content.rstrip(separator)
         if end_content:
             print(f"ℹ️ end内容合并完成（共{len(end_content)}字符）")
         else:
@@ -46,7 +47,7 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
 
     # ------------------------------
-    # 核心逻辑：遍历common与special文件组合，拼接内容
+    # 核心逻辑：遍历common与special文件组合，拼接内容（保留原始排版）
     # ------------------------------
     for common_file in os.listdir(common_dir):
         common_path = os.path.join(common_dir, common_file)
@@ -75,19 +76,19 @@ def main():
             new_path = os.path.join(output_dir, new_filename)
 
             # ------------------------------
-            # 读取common与special文件内容
+            # 读取common与special文件内容（保留原始排版）
             # ------------------------------
             try:
                 with open(common_path, 'r', encoding='utf-8') as f:
-                    common_content = f.read().strip()  # 去除首尾空白（可选）
+                    common_content = f.read()  # 【修复】保留原始内容（不做strip）
                 with open(special_path, 'r', encoding='utf-8') as f:
-                    special_content = f.read().strip()  # 去除首尾空白（可选）
+                    special_content = f.read()  # 【修复】保留原始内容（不做strip）
             except Exception as e:
                 print(f"Error 读取文件'{common_file}'或'{special_file}'：{e}", file=sys.stderr)
                 continue
 
             # ------------------------------
-            # 拼接内容（原顺序 + end内容）
+            # 拼接内容（保留原始顺序 + end内容，不修改排版）
             # ------------------------------
             if combine_order == 'special-first':
                 # 特殊内容在前，通用内容在后（如feature1内容→base内容→end内容）
@@ -96,21 +97,21 @@ def main():
                 # 默认：通用内容在前，特殊内容在后（如base内容→feature1内容→end内容）
                 combined_content = f"{common_content}{separator}{special_content}"
 
-            # 追加end内容（如果有的话）
+            # 追加end内容（如果有的话，保留原始排版）
             if end_content:
-                combined_content += f"{separator}{end_content}"
+                combined_content += end_content  # 【修改】无需额外分隔符（end内容已包含）
 
             # ------------------------------
-            # 写入新文件（覆盖旧文件）
+            # 写入新文件（保留原始排版）
             # ------------------------------
             try:
                 with open(new_path, 'w', encoding='utf-8') as f:
                     f.write(combined_content)
                 # 输出日志（区分是否包含end内容）
                 if end_content:
-                    print(f"✅ 生成文件：{new_path}（包含end内容）")
+                    print(f"✅ 生成文件：{new_path}（包含end内容，保留排版）")
                 else:
-                    print(f"✅ 生成文件：{new_path}")
+                    print(f"✅ 生成文件：{new_path}（保留排版）")
             except Exception as e:
                 print(f"Error 写入文件'{new_path}'：{e}", file=sys.stderr)
                 continue
