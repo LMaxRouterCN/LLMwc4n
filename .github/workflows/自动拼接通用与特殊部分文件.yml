@@ -35,10 +35,10 @@ jobs:
           END_DIR: 'end'            # 新增：不参与文件名的通用部分（追加内容）
           OUTPUT_DIR: '.'           # 输出到根目录
           COMBINE_ORDER: 'common-first'  # 拼接顺序（common在前，special在后）
-          SEPARATOR: '\n---\n'      # 内容分隔符（示例：添加分隔线）
+          SEPARATOR: ''      # 内容分隔符（示例：添加分隔线:\n---\n）
           EXTENSION_MODE: 'common'  # 扩展名保留通用文件的（如base.md+feature1.txt→base-feature1.md）
 
-      # 以下步骤（检查修改、提交推送）保持不变，无需修改
+      # 检查修改、提交推送
       - name: 检查修改
         id: check-changes
         run: |
@@ -51,7 +51,7 @@ jobs:
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "Auto-generate: 拼接通用与特殊部分文件（含end内容）（$(date +'%Y-%m-%d %H:%M:%S')）"
+          git commit -m "Auto-generate: 拼接通用与特殊部分（$(date +'%Y-%m-%d %H:%M:%S')）"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
