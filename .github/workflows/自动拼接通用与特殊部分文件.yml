@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: 执行拼接脚本
+      - name: 执行拼接脚本（保留排版）
         run: python .github/scripts/combine.py
         env:
           COMMON_DIR: 'common'
@@ -35,7 +35,7 @@ jobs:
           END_DIR: 'end'
           OUTPUT_DIR: '.'
           COMBINE_ORDER: 'common-first'
-          SEPARATOR: '\n\n'  # 示例：设置为两个换行（将生成空行）
+          SEPARATOR: ''  # 示例：两个换行（生成空行）
           EXTENSION_MODE: 'common'
 
       - name: 检查修改
@@ -50,7 +50,8 @@ jobs:
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "Auto-generate: 拼接通用与特殊部分文件($(date +'%Y-%m-%d %H:%M:%S'))"
+          # 关键修复：添加时区参数（Asia/Shanghai→北京时间），确保时间与现实一致
+          git commit -m "Auto-g: 拼接通用和特殊部分（$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')）"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
