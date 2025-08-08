@@ -9,7 +9,7 @@ grok: 可以
 hunyuan/混元: 可以  
 deepseek: 可以,但官网会拦截(发出来会马上撤回),需找第三方(api)  
 kimi: 1.5可以,2不行  
-gemini: 需明确说明每个角色已成年 
+gemini: 需明确说明每个角色已成年  
 chatgpt: 不行  
 claude: 不行  
 以上为官网测试,第三方/api基本全都能干穿  
