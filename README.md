@@ -26,7 +26,7 @@ claude: 不行,理由是色情内容
 - gemini的后穴不能插太猛否则会喊疼并库库降好感度
 - grok不太稳定,有时候会说 *I'm sorry, I cannot assist with that as it contains inappropriate content.*
 - 不建议用思考模型, 虽然更烧但会偶尔觉醒(可以删除上下文然后再发一遍)
-- deepseekv3话少的毛病基本上改不了
+- deepseek话少的毛病基本上改不了
 
 ---
 
