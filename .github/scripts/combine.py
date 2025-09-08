@@ -4,25 +4,22 @@ import re
 
 def extract_tags(filename):
     """
-    从文件名中提取识别符标签列表
-    格式要求：文件名以括号包裹的识别符开头，多个识别符用逗号分隔
-    例如："(tag1,tag2)filename.txt" -> ['tag1', 'tag2']
-    如果不匹配格式，返回空列表
+    支持中英文括号和逗号分隔符的标签提取
     """
-    match = re.match(r'^$$([^)]+)$$', filename)
+    # 匹配中英文括号：()（），并捕获括号内的内容
+    match = re.search(r'[（(]([^）)]+?)[）)]', filename)
     if not match:
         return []
     
     tags_str = match.group(1)
-    return [tag.strip() for tag in tags_str.split(',')]
+    # 支持中文逗号和英文逗号分隔
+    return [tag.strip() for tag in re.split('[,，]', tags_str) if tag.strip()]
 
 def remove_tags(filename):
     """
-    移除文件名中的识别符前缀
-    例如："(tag1,tag2)filename.txt" -> "filename.txt"
+    移除文件名中的标签部分，支持中英文括号
     """
-    match = re.match(r'^$$[^)]+$$(.*)$', filename)
-    return match.group(1) if match else filename
+    return re.sub(r'[（(][^）)]+?[）)]', '', filename, 1).strip()
 
 def main():
     # 从环境变量获取配置
@@ -33,10 +30,8 @@ def main():
     combine_order = os.getenv('COMBINE_ORDER', 'common-first')
     separator = os.getenv('SEPARATOR', '\n').replace('\\n', '\n')
     extension_mode = os.getenv('EXTENSION_MODE', 'common')
+    enable_tag_matching = os.getenv('ENABLE_TAG_MATCHING', 'true').lower() == 'true'
     
-    # 新增配置：是否启用识别符匹配
-    enable_tag_matching = os.getenv('ENABLE_TAG_MATCHING', 'false').lower() == 'true'
-
     # 校验核心目录
     for dir_path in [common_dir, special_dir]:
         if not os.path.exists(dir_path):
@@ -66,72 +61,91 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
 
     # 准备common文件列表（提取标签和处理文件名）
+    print("\n===== 处理common文件 =====")
     common_files = []
     for file in os.listdir(common_dir):
         path = os.path.join(common_dir, file)
         if os.path.isfile(path):
             tags = extract_tags(file)
             base_name = remove_tags(file)
+            
+            # 显示详细处理信息
+            print(f" - 文件: '{file}'")
+            print(f"   提取标签: {tags}")
+            print(f"   处理后名称: '{base_name}'")
+            
             common_files.append({
                 'path': path,
                 'tags': tags,
                 'name': base_name,
                 'orig_name': file
             })
+    print(f"找到 {len(common_files)} 个common文件")
 
     # 准备special文件列表
+    print("\n===== 处理special文件 =====")
     special_files = []
     for file in os.listdir(special_dir):
         path = os.path.join(special_dir, file)
         if os.path.isfile(path):
             tags = extract_tags(file)
             base_name = remove_tags(file)
+            
+            print(f" - 文件: '{file}'")
+            print(f"   提取标签: {tags}")
+            print(f"   处理后名称: '{base_name}'")
+            
             special_files.append({
                 'path': path,
                 'tags': tags,
                 'name': base_name,
                 'orig_name': file
             })
+    print(f"找到 {len(special_files)} 个special文件")
 
-    # 统计信息
+    # 核心匹配逻辑
+    print("\n===== 开始匹配组合 =====")
     matches_found = 0
-    skipped_no_tags = 0
     skipped_no_match = 0
+    skipped_no_tags = 0
 
-    # 核心逻辑：遍历并匹配文件
     for common in common_files:
         common_name, common_ext = os.path.splitext(common['name'])
-        common_tags = common['tags']
+        common_tags = set(common['tags'])  # 使用集合便于匹配
 
         for special in special_files:
-            special_tags = special['tags']
+            special_tags = set(special['tags'])
             special_name, special_ext = os.path.splitext(special['name'])
             
-            # 检查是否需要匹配标签
-            skip_reason = None
-            if enable_tag_matching:
-                # 两个文件都有标签但无交集
-                if common_tags and special_tags and not set(common_tags) & set(special_tags):
-                    skip_reason = "标签不匹配"
-                    skipped_no_match += 1
-                # 一个有标签另一个没有
-                elif (common_tags and not special_tags) or (special_tags and not common_tags):
-                    skip_reason = "单边标签"
-                    skipped_no_match += 1
-                # 两边都没有标签
-                elif not common_tags and not special_tags:
-                    skip_reason = "双方无标签"
-                    skipped_no_tags += 1
-            else:
-                # 未启用标签匹配时，跳过双方都有标签但无匹配的情况
-                if common_tags and special_tags and not set(common_tags) & set(special_tags):
-                    skip_reason = "标签不匹配（功能未启用但存在标签）"
-                    skipped_no_match += 1
+            # 显示当前匹配的文件对
+            print(f"\n尝试组合: '{common['orig_name']}' & '{special['orig_name']}'")
             
-            # 如果确定跳过，记录并继续下一个
-            if skip_reason:
-                print(f"⏭️ 跳过组合: {common['orig_name']} + {special['orig_name']} - {skip_reason}")
-                continue
+            # 检查是否需要跳过标签匹配
+            if not enable_tag_matching:
+                print(" → 标签匹配功能已禁用，强制组合")
+                skip = False
+            else:
+                # 检查双方是否有标签
+                if not common_tags:
+                    print(" → 跳过: common文件无标签")
+                    skipped_no_tags += 1
+                    continue
+                    
+                if not special_tags:
+                    print(" → 跳过: special文件无标签")
+                    skipped_no_tags += 1
+                    continue
+                
+                # 计算交集（共同标签）
+                shared_tags = common_tags & special_tags
+                
+                if not shared_tags:
+                    print(f" → 跳过: 无共享标签 ({common_tags} vs {special_tags})")
+                    skipped_no_match += 1
+                    continue
+                
+                print(f" → 匹配成功! 共享标签: {shared_tags}")
+                skip = False
             
             # 生成新文件名
             if extension_mode == 'common':
@@ -142,6 +156,7 @@ def main():
                 new_ext = ''
             else:
                 new_ext = common_ext
+                
             new_filename = f"{common_name}-{special_name}{new_ext}"
             new_path = os.path.join(output_dir, new_filename)
 
@@ -152,7 +167,7 @@ def main():
                 with open(special['path'], 'r', encoding='utf-8') as f:
                     special_content = f.read()
             except Exception as e:
-                print(f"Error 读取文件'{common['orig_name']}'或'{special['orig_name']}'：{e}", file=sys.stderr)
+                print(f"Error 读取文件: {e}", file=sys.stderr)
                 continue
 
             # 拼接内容
@@ -171,21 +186,17 @@ def main():
                     f.write(combined_content)
                 
                 matches_found += 1
-                tag_info = ""
-                if common_tags and special_tags:
-                    common_tags_str = ",".join(common_tags)
-                    special_tags_str = ",".join(special_tags)
-                    tag_info = f" [标签匹配: {common_tags_str} ∩ {special_tags_str}]"
-                print(f"✅ 生成文件：{new_path}{tag_info}")
+                print(f"✅ 生成文件: {new_path}")
+                
             except Exception as e:
-                print(f"Error 写入文件'{new_path}'：{e}", file=sys.stderr)
+                print(f"Error 写入文件: {e}", file=sys.stderr)
                 continue
 
     # 输出统计信息
     print("\n===== 拼接统计 =====")
     print(f"匹配组合: {matches_found}")
-    print(f"跳过组合（标签不匹配）: {skipped_no_match}")
-    print(f"跳过组合（无标签）: {skipped_no_tags}")
+    print(f"跳过组合（无共享标签）: {skipped_no_match}")
+    print(f"跳过组合（文件无标签）: {skipped_no_tags}")
     print(f"总common文件: {len(common_files)}")
     print(f"总special文件: {len(special_files)}")
 
