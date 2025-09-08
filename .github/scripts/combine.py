@@ -38,29 +38,10 @@ def main():
             print(f"Error: 目录'{dir_path}'不存在，请检查配置。", file=sys.stderr)
             sys.exit(1)
 
-    # 读取end文件夹内容
-    end_content = ""
-    if os.path.exists(end_dir):
-        print(f"ℹ️ 读取end文件夹内容（{end_dir}）...")
-        for end_file in sorted(os.listdir(end_dir)):
-            end_path = os.path.join(end_dir, end_file)
-            if os.path.isfile(end_path):
-                try:
-                    with open(end_path, 'r', encoding='utf-8') as f:
-                        end_content += f.read() + separator
-                except Exception as e:
-                    print(f"Warning: 读取end文件'{end_file}'失败：{e}", file=sys.stderr)
-        if end_content:
-            print(f"ℹ️ end内容合并完成（共{len(end_content)}字符）")
-        else:
-            print(f"ℹ️ end文件夹为空，不添加end内容")
-    else:
-        print(f"ℹ️ end文件夹'{end_dir}'不存在，不添加end内容")
-
     # 创建输出目录
     os.makedirs(output_dir, exist_ok=True)
 
-    # 准备common文件列表（提取标签和处理文件名）
+    # 准备common文件列表
     print("\n===== 处理common文件 =====")
     common_files = []
     for file in os.listdir(common_dir):
@@ -102,6 +83,39 @@ def main():
                 'orig_name': file
             })
     print(f"找到 {len(special_files)} 个special文件")
+
+    # 准备end文件列表（带标签匹配）
+    print("\n===== 处理end文件 =====")
+    end_files = []
+    if os.path.exists(end_dir):
+        for file in os.listdir(end_dir):
+            path = os.path.join(end_dir, file)
+            if os.path.isfile(path):
+                tags = extract_tags(file)
+                base_name = remove_tags(file)
+                
+                print(f" - 文件: '{file}'")
+                print(f"   提取标签: {tags}")
+                print(f"   处理后名称: '{base_name}'")
+                
+                # 读取文件内容
+                try:
+                    with open(path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                except Exception as e:
+                    print(f"Error 读取end文件: {e}", file=sys.stderr)
+                    continue
+                    
+                end_files.append({
+                    'path': path,
+                    'tags': tags,
+                    'name': base_name,
+                    'orig_name': file,
+                    'content': content
+                })
+        print(f"找到 {len(end_files)} 个end文件")
+    else:
+        print(f"ℹ️ end文件夹'{end_dir}'不存在，不添加end内容")
 
     # 核心匹配逻辑
     print("\n===== 开始匹配组合 =====")
@@ -176,10 +190,46 @@ def main():
             else:
                 combined_content = f"{common_content}{separator}{special_content}"
             
-            # 追加end内容
-            if end_content:
-                combined_content += end_content
-
+            # 追加匹配的end内容（仅在启用标签匹配时）
+            if end_files and enable_tag_matching:
+                selected_end_content = ""
+                added_end_files = []
+                
+                # 选择匹配共享标签的end文件
+                for end in end_files:
+                    end_tags = set(end['tags'])
+                    
+                    # 检查是否添加此end文件
+                    add_end_file = False
+                    
+                    # 规则1: 无标签的end文件始终添加
+                    if not end_tags:
+                        add_end_file = True
+                        reason = "无标签（通用）"
+                    
+                    # 规则2: 完全匹配 - end文件标签是共享标签的子集
+                    elif end_tags and end_tags.issubset(shared_tags):
+                        add_end_file = True
+                        reason = f"完全匹配 ({end_tags} ⊆ {shared_tags})"
+                    
+                    # 规则3: 部分匹配 - 有至少一个共同标签
+                    else:
+                        common_end_tags = end_tags & shared_tags
+                        if common_end_tags:
+                            add_end_file = True
+                            reason = f"部分匹配 ({common_end_tags})"
+                    
+                    if add_end_file:
+                        selected_end_content += end['content'] + separator
+                        added_end_files.append(f"{end['orig_name']} ({reason})")
+                        print(f" → 添加end文件: {end['orig_name']} - {reason}")
+                
+                if selected_end_content:
+                    combined_content += selected_end_content
+                    print(f" → 添加了 {len(added_end_files)} 个end文件: {', '.join(added_end_files)}")
+                else:
+                    print(" → 没有匹配的end文件")
+            
             # 写入新文件
             try:
                 with open(new_path, 'w', encoding='utf-8') as f:
@@ -199,6 +249,7 @@ def main():
     print(f"跳过组合（文件无标签）: {skipped_no_tags}")
     print(f"总common文件: {len(common_files)}")
     print(f"总special文件: {len(special_files)}")
+    print(f"总end文件: {len(end_files)}")
 
 if __name__ == '__main__':
     main()
