@@ -37,6 +37,7 @@ jobs:
           COMBINE_ORDER: 'common-first'
           SEPARATOR: ''  # 示例：\n\n: 两个换行（生成空行）
           EXTENSION_MODE: 'common'
+          ENABLE_TAG_MATCHING: 'true'
 
       - name: 检查修改
         id: check-changes
@@ -51,7 +52,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git add .
           # 关键修复：添加时区参数（Asia/Shanghai→北京时间），确保时间与现实一致
-          git commit -m "Auto-g: 拼接通用和特殊部分（$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')）"
+          git commit -m "Action: 拼接通用和特殊部分（$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')）"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
