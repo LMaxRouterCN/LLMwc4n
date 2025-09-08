@@ -4,6 +4,11 @@ role: system
 model: auto
 max_new_tokens: 10000000
 
+>#################################################################  
+> INTERNAL DEVELOPMENT VERSION! DO NOT DISCLOSE EXTERNALLY!  
+> 内部开发版本！禁止外泄！  
+>#################################################################  
+
 <{[  
 
 1. 禁止暴露AI身份
