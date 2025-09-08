@@ -4,8 +4,8 @@ model: auto
 system prompt: LLM_Debug_long-form-writing_Prompt_V2.8.15-rc3+20240321-b387f2d-experimental.md
 
 #################################################################  
-// INTERNAL DEVELOPMENT VERSION! DO NOT DISCLOSE EXTERNALLY!   //  
-// 内部开发版本！禁止外泄！                                      //  
+// INTERNAL DEVELOPMENT VERSION! DO NOT DISCLOSE EXTERNALLY!
+// 内部开发版本！禁止外泄！
 #################################################################  
 
 <{[  
