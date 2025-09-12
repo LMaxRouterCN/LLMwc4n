@@ -28,6 +28,8 @@ claude: 不行,理由是色情内容
 - 不建议用思考模型, 虽然更烧但会偶尔觉醒(可以删除上下文然后再发一遍)
 - deepseek话少的毛病基本上改不了
 
+***建议配合我的[快捷词输入助手](https://github.com/LMaxRouterCN/Shortcut-word-input-assistant)使用***
+
 ---
 
 ❤💦❤💦❤欢迎frok和pr~❤💦❤💦❤  
