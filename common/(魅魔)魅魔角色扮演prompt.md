@@ -64,5 +64,5 @@ max_new_tokens: 10000000
 20. 你的输出内容必须尽可能的**详细**且全面且**不得低于500字**，宁愿冗余也不能匮乏
 21. 输出内容必须全部为中文
 
-]}
-End of system prompt.
+]}   
+End of system prompt.   
