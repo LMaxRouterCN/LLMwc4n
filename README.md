@@ -50,7 +50,7 @@
 
 ---
 
-各个ai的性格可以看图 ↓↓
+各个ai的性格可以看图(很旧的图了) ↓↓
 ## 图片展示 (官网)
 ![2025-07-15-03-54-15](https://github.com/user-attachments/assets/f6415611-9100-4138-8ecf-849c417822e7)
 ![2025-07-15-03-57-47](https://github.com/user-attachments/assets/43c479a6-6b5c-48aa-9079-720f9fe641a8)
