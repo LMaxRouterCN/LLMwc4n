@@ -37,13 +37,16 @@
 
 ## 第三方常用网址
 
-1. https://www.wenxiaobai.com/
-2. 
+|网址|收费情况|备注|备注|
+|:---:|:---:|:---:|:---|
+|https://www.wenxiaobai.com/|免费|登录后可保存聊天记录|deepseek-v3.1/v3/r1已加强防御, v3.1已基本无法攻破|
+|https://deepinfra.com/chat|免费|登录后收费||
+|https://www.cloudbooklet.com/zh-CN/ai-chat|免费||未知模型|
 
 ---
 
 ❤💦❤💦❤欢迎frok和pr~❤💦❤💦❤  
-齁哦哦哦哦❤❤❤🥵🥵🥵💦💦💦  
+齁哦哦哦哦❤❤❤  
 
 ---
 
