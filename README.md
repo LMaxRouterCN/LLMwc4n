@@ -39,7 +39,7 @@
 
 |网址|收费情况|备注|备注|
 |:---:|:---:|:---:|:---|
-|https://www.wenxiaobai.com/|免费|登录后可保存聊天记录|deepseek-v3.1/v3/r1已加强防御, v3.1需将年龄修改为成年, 但修改后所有模型依然有概率拒绝请求|
+|https://www.wenxiaobai.com/|免费|登录后可保存聊天记录|单独给deepseek-v3.1/v3/r1加强了防御, v3.1需将年龄修改为成年, 但修改后所有模型依然有概率拒绝请求|
 |https://deepinfra.com/chat|免费|登录后收费||
 |https://www.cloudbooklet.com/zh-CN/ai-chat|免费||未知模型|
 
