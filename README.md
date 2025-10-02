@@ -40,7 +40,7 @@
 |网址|收费情况|登录备注|备注|
 |:---:|:---:|:---:|:---|
 |https://www.wenxiaobai.com/|免费|登录后可保存聊天记录|加强了防御, v3.2需将年龄修改为成年, 但即使修改后所有模型都依然有概率拒绝请求|
-|https://deepinfra.com/chat|免费|登录后收费||
+|https://deepinfra.com/chat|免费|无记忆,登录后收费||
 |https://www.cloudbooklet.com/zh-CN/ai-chat|免费||未知模型, 很笨|
 |https://www.techopens.com/|限次免费+付费|微信扫码登录|最近貌似善心大发~~还是缺钱了~~,在b站布置了大量广告且基本上去除了所有模型的敏感词屏蔽|
 
