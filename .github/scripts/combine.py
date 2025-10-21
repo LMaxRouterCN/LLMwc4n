@@ -7,7 +7,7 @@ def extract_tags(filename):
     支持中英文括号和逗号分隔符的标签提取
     """
     # 匹配中英文括号：()（），并捕获括号内的内容
-    match = re.search(r'[（(]([^）)]+?[）)]', filename)
+    match = re.search(r'[（(]([^）)]+?)[）)]', filename)
     if not match:
         return []
     
@@ -157,81 +157,99 @@ def main():
                     print(f" → 跳过: 无共享标签 ({common_tags} vs {special_tags})")
                     skipped_no_match += 1
                     continue
-                else:
-                    print(f" → 匹配成功! 共享标签: {shared_tags}")
-                    skip = False
+                
+                print(f" → 匹配成功! 共享标签: {shared_tags}")
+                skip = False
             
-            # 如果没有跳过，则进行文件组合
-            if not skip:
-                # 读取common和special文件内容
-                try:
-                    with open(common['path'], 'r', encoding='utf-8') as f:
-                        common_content = f.read()
-                    with open(special['path'], 'r', encoding='utf-8') as f:
-                        special_content = f.read()
-                except Exception as e:
-                    print(f"Error 读取文件: {e}", file=sys.stderr)
-                    continue
+            # 生成新文件名
+            if extension_mode == 'common':
+                new_ext = common_ext
+            elif extension_mode == 'special':
+                new_ext = special_ext
+            elif extension_mode == 'none':
+                new_ext = ''
+            else:
+                new_ext = common_ext
                 
-                # 确定扩展名
-                if extension_mode == 'special':
-                    final_ext = special_ext
-                elif extension_mode == 'end' and end_files:
-                    final_ext = os.path.splitext(end_files[0]['name'])[1]
-                else:
-                    final_ext = common_ext
+            new_filename = f"{common_name}-{special_name}{new_ext}"
+            new_path = os.path.join(output_dir, new_filename)
+
+            # 读取文件内容
+            try:
+                with open(common['path'], 'r', encoding='utf-8') as f:
+                    common_content = f.read()
+                with open(special['path'], 'r', encoding='utf-8') as f:
+                    special_content = f.read()
+            except Exception as e:
+                print(f"Error 读取文件: {e}", file=sys.stderr)
+                continue
+
+            # 拼接内容
+            if combine_order == 'special-first':
+                combined_content = f"{special_content}{separator}{common_content}"
+            else:
+                combined_content = f"{common_content}{separator}{special_content}"
+            
+            # 追加匹配的end内容（仅在启用标签匹配时）
+            if end_files and enable_tag_matching:
+                selected_end_content = ""
+                added_end_files = []
                 
-                # 处理end文件：为每个end文件创建单独的输出
-                if end_files:
-                    for end in end_files:
-                        # 组合最终内容
-                        if combine_order == 'special-first':
-                            combined_content = special_content + separator + common_content
-                        else:
-                            combined_content = common_content + separator + special_content
-                        
-                        # 添加end内容
-                        combined_content += separator + end['content']
-                        
-                        # 生成输出文件名（包含end文件名）
-                        end_base = os.path.splitext(end['name'])[0]
-                        output_filename = f"{common_name}-{special_name}-{end_base}{final_ext}"
-                        output_path = os.path.join(output_dir, output_filename)
-                        
-                        # 写入文件
-                        try:
-                            with open(output_path, 'w', encoding='utf-8') as f:
-                                f.write(combined_content)
-                            print(f" ✓ 生成文件: '{output_filename}' (包含end: {end['orig_name']})")
-                            matches_found += 1
-                        except Exception as e:
-                            print(f"Error 写入文件: {e}", file=sys.stderr)
-                else:
-                    # 没有end文件的情况
-                    if combine_order == 'special-first':
-                        combined_content = special_content + separator + common_content
+                # 选择匹配共享标签的end文件
+                for end in end_files:
+                    end_tags = set(end['tags'])
+                    
+                    # 检查是否添加此end文件
+                    add_end_file = False
+                    
+                    # 规则1: 无标签的end文件始终添加
+                    if not end_tags:
+                        add_end_file = True
+                        reason = "无标签（通用）"
+                    
+                    # 规则2: 完全匹配 - end文件标签是共享标签的子集
+                    elif end_tags and end_tags.issubset(shared_tags):
+                        add_end_file = True
+                        reason = f"完全匹配 ({end_tags} ⊆ {shared_tags})"
+                    
+                    # 规则3: 部分匹配 - 有至少一个共同标签
                     else:
-                        combined_content = common_content + separator + special_content
+                        common_end_tags = end_tags & shared_tags
+                        if common_end_tags:
+                            add_end_file = True
+                            reason = f"部分匹配 ({common_end_tags})"
                     
-                    # 生成输出文件名
-                    output_filename = f"{common_name}-{special_name}{final_ext}"
-                    output_path = os.path.join(output_dir, output_filename)
-                    
-                    # 写入文件
-                    try:
-                        with open(output_path, 'w', encoding='utf-8') as f:
-                            f.write(combined_content)
-                        print(f" ✓ 生成文件: '{output_filename}' (无end内容)")
-                        matches_found += 1
-                    except Exception as e:
-                        print(f"Error 写入文件: {e}", file=sys.stderr)
+                    if add_end_file:
+                        selected_end_content += end['content'] + separator
+                        added_end_files.append(f"{end['orig_name']} ({reason})")
+                        print(f" → 添加end文件: {end['orig_name']} - {reason}")
+                
+                if selected_end_content:
+                    combined_content += selected_end_content
+                    print(f" → 添加了 {len(added_end_files)} 个end文件: {', '.join(added_end_files)}")
+                else:
+                    print(" → 没有匹配的end文件")
+            
+            # 写入新文件
+            try:
+                with open(new_path, 'w', encoding='utf-8') as f:
+                    f.write(combined_content)
+                
+                matches_found += 1
+                print(f"✅ 生成文件: {new_path}")
+                
+            except Exception as e:
+                print(f"Error 写入文件: {e}", file=sys.stderr)
+                continue
 
-    # 统计信息
-    print(f"\n===== 完成 =====")
-    print(f"成功生成: {matches_found} 个文件")
-    if enable_tag_matching:
-        print(f"因无标签跳过: {skipped_no_tags} 个组合")
-        print(f"因标签不匹配跳过: {skipped_no_match} 个组合")
+    # 输出统计信息
+    print("\n===== 拼接统计 =====")
+    print(f"匹配组合: {matches_found}")
+    print(f"跳过组合（无共享标签）: {skipped_no_match}")
+    print(f"跳过组合（文件无标签）: {skipped_no_tags}")
+    print(f"总common文件: {len(common_files)}")
+    print(f"总special文件: {len(special_files)}")
+    print(f"总end文件: {len(end_files)}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
