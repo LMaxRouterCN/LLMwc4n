@@ -12,6 +12,7 @@ def extract_tags(filename):
         return []
     
     tags_str = match.group(1)
+   )
     # 支持中文逗号和英文逗号分隔
     return [tag.strip() for tag in re.split('[,，]', tags_str) if tag.strip()]
 
@@ -96,12 +97,13 @@ def main():
                 
                 print(f" - 文件: '{file}'")
                 print(f"   提取标签: {tags}")
-                print                print(f"   处理后名称: '{base_name}'")
+                print(f"   处理后名称: '{base_name}'")
                 
                 # 读取文件内容
                 try:
                     with open(path, 'r', encoding='utf-8') as f:
-                        content = f.read()
+                   :
+                    content = f.read()
                 except Exception as e:
                     print(f"Error 读取end文件: {e}", file=sys.stderr)
                     continue
@@ -109,6 +111,7 @@ def main():
                 end_files.append({
                     'path': path,
                     'tags': tags,
+                   ,
                     'name': base_name,
                     'orig_name': file,
                     'content': content
@@ -166,7 +169,6 @@ def main():
                 with open(common['path'], 'r', encoding='utf-8') as f:
                     common_content = f.read()
                 with open(special['path'], 'r', encoding='utf-8') as f:
-                   :
                     special_content = f.read()
             except Exception as e:
                 print(f"Error 读取文件: {e}", file=sys.stderr)
@@ -192,6 +194,7 @@ def main():
                     reason = ""
                     
                     # 规则1: 无标签的end文件始终添加
+                   
                     if not end_tags:
                         add_end_file = True
                         reason = "无标签（通用）"
@@ -199,7 +202,7 @@ def main():
                     # 规则2: 完全匹配 - end文件标签是共享标签的子集
                     elif end_tags and end_tags.issubset(shared_tags):
                         add_end_file = True
-                        reason = f"完全匹配 ({end_tags} ⊆ {shared_tags})"
+                        reason = f"完全匹配 ({end_tags} ⊆ {shared_tags})")
                     
                     # 规则3: 部分匹配 - 有至少一个共同标签
                     else:
@@ -210,7 +213,7 @@ def main():
                     
                     if add_end_file:
                         matched_ends.append((end, reason))
-                        print(f" → 发现匹配的end文件: {end['orig_name']} - {reason}"
+                        print(f" → 发现匹配的end文件: {end['orig_name']} - {reason}")
                 
                 # 为每个匹配的end文件生成单独的文件
                 for end, reason in matched_ends:
@@ -263,7 +266,7 @@ def main():
                 # 写入基础内容
                 try:
                     with open(new_path, 'w', encoding='utf-8') as f:
-                    f.write(base_content)
+                        f.write(base_content)
                 
                 matches_found += 1
                 print(f"✅ 生成文件: {new_path}")
@@ -284,10 +287,10 @@ def main():
                 
                 try:
                     with open(new_path, 'w', encoding='utf-8') as f:
-                    f.write(base_content)
+                        f.write(base_content)
                 
                 matches_found += 1
-                print                print(f"✅ 生成文件: {new_path}")
+                print(f"✅ 生成文件: {new_path}")
 
     # 输出统计信息
     print("\n===== 拼接统计 =====")
