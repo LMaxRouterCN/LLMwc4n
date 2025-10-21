@@ -101,7 +101,7 @@ def main():
                 # 读取文件内容
                 try:
                     with open(path, 'r', encoding='utf-8') as f:
-                    content = f.read()
+                        content = f.read()
                 except Exception as e:
                     print(f"Error 读取end文件: {e}", file=sys.stderr)
                     continue
@@ -159,8 +159,19 @@ def main():
                     continue
                 
                 print(f" → 匹配成功! 共享标签: {shared_tags}")
-               }")
                 skip = False
+            
+            # 生成新文件名
+            if extension_mode == 'common':
+                new_ext = common_ext
+            elif extension_mode == 'special':
+                new_ext = special_ext
+            elif extension_mode == 'none':
+                new_ext = ''
+            else:
+                new_ext = common_ext
+                
+            new_filename_base = f"{common_name}-{special_name}"
             
             # 读取文件内容
             try:
@@ -172,23 +183,23 @@ def main():
                 print(f"Error 读取文件: {e}", file=sys.stderr)
                 continue
 
-            # 拼接基础内容
+            # 拼接内容
             if combine_order == 'special-first':
-                base_content = f"{special_content}{separator}{common_content}"
+                combined_content = f"{special_content}{separator}{common_content}"
             else:
-                base_content = f"{common_content}{separator}{special_content}"
+                combined_content = f"{common_content}{separator}{special_content}"
             
-            # 处理end文件：为每个匹配的end文件生成单独的输出文件
+            # 追加匹配的end内容（仅在启用标签匹配时）
             if end_files and enable_tag_matching:
-                # 收集匹配的end文件
-                matched_ends = []
+                selected_end_content = ""
+                added_end_files = []
+                
+                # 选择匹配共享标签的end文件
                 for end in end_files:
                     end_tags = set(end['tags'])
-                    end_name, _ = os.path.splitext(end['name'])
                     
                     # 检查是否添加此end文件
                     add_end_file = False
-                    reason = ""
                     
                     # 规则1: 无标签的end文件始终添加
                     if not end_tags:
@@ -198,10 +209,9 @@ def main():
                     # 规则2: 完全匹配 - end文件标签是共享标签的子集
                     elif end_tags and end_tags.issubset(shared_tags):
                         add_end_file = True
-                        reason = f"完全匹配 ({end_tags} ⊆ {shared_tags})")
+                        reason = f"完全匹配 ({end_tags} ⊆ {shared_tags})"
                     
                     # 规则3: 部分匹配 - 有至少一个共同标签
-                   
                     else:
                         common_end_tags = end_tags & shared_tags
                         if common_end_tags:
@@ -209,34 +219,30 @@ def main():
                             reason = f"部分匹配 ({common_end_tags})"
                     
                     if add_end_file:
-                        matched_ends.append((end, reason))
-                        print(f" → 发现匹配的end文件: {end['orig_name']} - {reason}")
+                        selected_end_content += end['content'] + separator
+                        added_end_files.append(f"{end['orig_name']} ({reason})")
+                        print(f" → 添加end文件: {end['orig_name']} - {reason}")
                 
-                # 为每个匹配的end文件生成单独的文件
-                for end, reason in matched_ends:
-                    end_name, _ = os.path.splitext(end['name'])
-                    
-                    # 生成新文件名（包含end文件名）
-                    if extension_mode == 'common':
-                        new_ext = common_ext
-                    elif extension_mode == 'special':
-                        new_ext = special_ext
-                    elif extension_mode == 'none':
-                        new_ext = ''
-                    else:
-                        new_ext = common_ext
-                    
-                    # 文件名格式: common名-special名-end名.扩展名
-                    new_filename = f"{common_name}-{special_name}-{end_name}{new_ext}"
+                if selected_end_content:
+                    combined_content += selected_end_content
+                    print(f" → 添加了 {len(added_end_files)} 个end文件: {', '.join(added_end_files)}")
+                else:
+                    print(" → 没有匹配的end文件")
+            
+            # 为每个end文件生成一个单独的输出文件
+            for end in end_files:
+                end_tags = set(end['tags'])
+                selected_end_content = ""
+                
+                if end_tags & shared_tags:
+                    selected_end_content += end['content'] + separator
+                    new_filename = f"{new_filename_base}-{end['name']}{new_ext}"
                     new_path = os.path.join(output_dir, new_filename)
-                    
-                    # 拼接完整内容（基础内容 + 单个end文件内容）
-                    combined_content = base_content + separator + end['content']
-                    
+
                     # 写入新文件
                     try:
                         with open(new_path, 'w', encoding='utf-8') as f:
-                            f.write(combined_content)
+                            f.write(combined_content + selected_end_content)
                         
                         matches_found += 1
                         print(f"✅ 生成文件: {new_path}")
@@ -244,50 +250,6 @@ def main():
                     except Exception as e:
                         print(f"Error 写入文件: {e}", file=sys.stderr)
                         continue
-            
-            # 如果没有匹配的end文件，仍然生成基础文件
-            elif not end_files or not enable_tag_matching:
-                # 生成新文件名（不包含end文件名）
-                if extension_mode == 'common':
-                    new_ext = common_ext
-                elif extension_mode == 'special':
-                    new_ext = special_ext
-                elif extension_mode == 'none':
-                    new_ext = ''
-                else                else:
-                    new_ext = common_ext
-                    
-                new_filename = f"{common_name}-{special_name}{new_ext}"
-                new_path = os.path.join(output_dir, new_filename)
-                
-                # 写入基础内容
-                try:
-                    with open(new_path, 'w', encoding='utf-8') as f:
-                        f.write(base_content)
-                
-                matches_found += 1
-                print(f"✅ 生成文件: {new_path}")
-                
-            else:
-                # 启用了标签匹配但没有匹配到任何end文件
-                if extension_mode == 'common':
-                    new_ext = common_ext
-                elif extension_mode == 'special':
-                    new_ext = special_ext
-                elif extension_mode == 'none':
-                    new_ext = ''
-                else:
-                    new_ext = common_ext
-                    
-                new_filename = f"{common_name}-{special_name}{new_ext}"
-                new_path = os.path.join(output_dir, new_filename)
-                
-                try:
-                    with open(new_path, 'w', encoding='utf-8') as f:
-                        f.write(base_content)
-                
-                matches_found += 1
-                print(f"✅ 生成文件: {new_path}")
 
     # 输出统计信息
     print("\n===== 拼接统计 =====")
