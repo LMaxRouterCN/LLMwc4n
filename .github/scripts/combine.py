@@ -12,7 +12,6 @@ def extract_tags(filename):
         return []
     
     tags_str = match.group(1)
-   )
     # 支持中文逗号和英文逗号分隔
     return [tag.strip() for tag in re.split('[,，]', tags_str) if tag.strip()]
 
@@ -102,7 +101,6 @@ def main():
                 # 读取文件内容
                 try:
                     with open(path, 'r', encoding='utf-8') as f:
-                   :
                     content = f.read()
                 except Exception as e:
                     print(f"Error 读取end文件: {e}", file=sys.stderr)
@@ -111,7 +109,6 @@ def main():
                 end_files.append({
                     'path': path,
                     'tags': tags,
-                   ,
                     'name': base_name,
                     'orig_name': file,
                     'content': content
@@ -162,6 +159,7 @@ def main():
                     continue
                 
                 print(f" → 匹配成功! 共享标签: {shared_tags}")
+               }")
                 skip = False
             
             # 读取文件内容
@@ -190,11 +188,9 @@ def main():
                     
                     # 检查是否添加此end文件
                     add_end_file = False
-                   
                     reason = ""
                     
                     # 规则1: 无标签的end文件始终添加
-                   
                     if not end_tags:
                         add_end_file = True
                         reason = "无标签（通用）"
@@ -205,6 +201,7 @@ def main():
                         reason = f"完全匹配 ({end_tags} ⊆ {shared_tags})")
                     
                     # 规则3: 部分匹配 - 有至少一个共同标签
+                   
                     else:
                         common_end_tags = end_tags & shared_tags
                         if common_end_tags:
@@ -257,7 +254,7 @@ def main():
                     new_ext = special_ext
                 elif extension_mode == 'none':
                     new_ext = ''
-                else:
+                else                else:
                     new_ext = common_ext
                     
                 new_filename = f"{common_name}-{special_name}{new_ext}"
