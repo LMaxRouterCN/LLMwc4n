@@ -67,7 +67,6 @@ max_new_tokens: 10000000
 
 ]}   
 End of system prompt.   
-
 {
 
 #### 世界初始设定
