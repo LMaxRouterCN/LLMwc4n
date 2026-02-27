@@ -87,7 +87,7 @@ jobs:
 
       - name: 上传产物
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: combined-files
           # 产物上传也可以使用变量
