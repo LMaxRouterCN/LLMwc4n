@@ -12,6 +12,12 @@ jobs:
     permissions:
       contents: write
     
+    # ==========================================
+    # 1. 在这里定义环境变量，所有步骤都能访问
+    # ==========================================
+    env:
+      OUTPUT_DIR: '.'  # 输出到根目录
+      
     steps:
       - name: Checkout 代码
         uses: actions/checkout@v4
@@ -26,33 +32,64 @@ jobs:
       - name: 执行拼接脚本
         run: python .github/scripts/combine_v3.py
         env:
-          # 基础配置
+          # 这里不需要重复定义 OUTPUT_DIR，除非要覆盖上面的值
+          # 其他配置保持不变
           CONFIG_DIR: 'configs'
-          OUTPUT_DIR: '.'
           SEPARATOR: '\n\n'
-          
-          # 扩展名配置
-          EXTENSION_MODE: 'first'           # first/last/none/custom
-          CUSTOM_EXTENSION: '.json'          # 自定义扩展名（仅当 EXTENSION_MODE=custom 时生效）
-          
-          # 文件名配置
-          INCLUDE_EXTENSION_IN_NAME: 'false' # 是否在文件名中包含扩展名
-          HIDE_MARKER: '[hide]'              # 隐藏标记
-          FILENAME_SEPARATOR: '-'            # 文件名连接符
-          
-          # 标签配置
+          EXTENSION_MODE: 'first'
+          CUSTOM_EXTENSION: '.json'
+          INCLUDE_EXTENSION_IN_NAME: 'false'
+          HIDE_MARKER: '[hide]'
+          FILENAME_SEPARATOR: '-'
           ENABLE_TAG_MATCHING: 'true'
           TAG_FORMAT: 'both'
-          
-          # 调试配置
           VERBOSE: 'true'
 
+      - name: 检查修改
+        id: check-changes
+        run: |
+          echo "=== 检查输出目录 ==="
+          # 使用变量 $OUTPUT_DIR
+          if [ -d "$OUTPUT_DIR" ] || [ "$OUTPUT_DIR" = "." ]; then
+            # 如果是根目录，列出所有变更
+            if [ "$OUTPUT_DIR" = "." ]; then
+              echo "输出到根目录，检查所有变更..."
+            fi
+            git status --porcelain
+            echo "changes=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ 输出目录不存在"
+            echo "changes=0" >> $GITHUB_OUTPUT
+          fi
+
       - name: 提交修改
+        if: steps.check-changes.outputs.changes > 0
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
-          git add output/
-          git commit -m "Action: 拼接文件" || echo "No changes"
+          
+          # ==========================================
+          # 2. 动态判断要添加什么文件
+          # ==========================================
+          if [ "$OUTPUT_DIR" = "." ]; then
+            # 如果是根目录，添加所有变更文件
+            # 使用 -A 确保包含新文件
+            git add -A
+          else
+            # 如果是特定目录，只添加该目录
+            git add "$OUTPUT_DIR"
+          fi
+          
+          git commit -m "Action: 拼接文件（$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')）"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 上传产物
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: combined-files
+          # 产物上传也可以使用变量
+          path: ${{ env.OUTPUT_DIR == '.' && '.' || env.OUTPUT_DIR }}/*
+          retention-days: 7
