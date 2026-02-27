@@ -1,57 +1,58 @@
-name: 自动拼接通用与特殊部分文件
+name: 动态文件拼接工具 v3.1
+
 on:
   push:
     paths:
-      - 'common/**'
-      - 'special/**'
-      - 'end/**'
-  pull_request:
-    paths:
-      - 'common/**'
-      - 'special/**'
-      - 'end/**'
+      - 'configs/**'
+  workflow_dispatch:
 
 jobs:
   combine-files:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    
     steps:
       - name: Checkout 代码
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 设置Python
+      - name: 设置 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
       - name: 执行拼接脚本
-        run: python .github/scripts/combine.py
+        run: python .github/scripts/combine_v3.py
         env:
-          COMMON_DIR: 'common'
-          SPECIAL_DIR: 'special'
-          END_DIR: 'end'
-          OUTPUT_DIR: '.'
-          COMBINE_ORDER: 'common-first'
-          SEPARATOR: ''  # 示例：\n\n: 两个换行（生成空行）
-          EXTENSION_MODE: 'common'
+          # 基础配置
+          CONFIG_DIR: 'configs'
+          OUTPUT_DIR: 'output'
+          SEPARATOR: '\n'
+          
+          # 扩展名配置
+          EXTENSION_MODE: 'first'           # first/last/none/custom
+          CUSTOM_EXTENSION: '.json'          # 自定义扩展名（仅当 EXTENSION_MODE=custom 时生效）
+          
+          # 文件名配置
+          INCLUDE_EXTENSION_IN_NAME: 'false' # 是否在文件名中包含扩展名
+          HIDE_MARKER: '[hide]'              # 隐藏标记
+          FILENAME_SEPARATOR: '-'            # 文件名连接符
+          
+          # 标签配置
           ENABLE_TAG_MATCHING: 'true'
-
-      - name: 检查修改
-        id: check-changes
-        run: |
-          git status --porcelain
-          echo "changes=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+          TAG_FORMAT: 'both'
+          
+          # 调试配置
+          VERBOSE: 'true'
 
       - name: 提交修改
-        if: steps.check-changes.outputs.changes > 0
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
-          git add .
-          git commit -m "Action: 拼接通用和特殊部分（$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')）"
+          git add output/
+          git commit -m "Action: 拼接文件" || echo "No changes"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
