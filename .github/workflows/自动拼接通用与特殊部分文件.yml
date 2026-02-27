@@ -28,8 +28,8 @@ jobs:
         env:
           # 基础配置
           CONFIG_DIR: 'configs'
-          OUTPUT_DIR: 'output'
-          SEPARATOR: '\n'
+          OUTPUT_DIR: '.'
+          SEPARATOR: '\n\n'
           
           # 扩展名配置
           EXTENSION_MODE: 'first'           # first/last/none/custom

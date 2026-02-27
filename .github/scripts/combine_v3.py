@@ -65,8 +65,8 @@ class ConfigManager:
     """配置管理器"""
     
     def __init__(self):
-        self.config_dir = os.getenv('CONFIG_DIR', 'configs')
-        self.output_dir = os.getenv('OUTPUT_DIR', '.')
+        self.config_dir = os.getenv('CONFIG_DIR', 'configs')  # 源文件文件夹
+        self.output_dir = os.getenv('OUTPUT_DIR', '.')  # ".":输出到根目录
         self.separator = self._parse_separator(os.getenv('SEPARATOR', '\n\n'))
         
         # 扩展名配置
