@@ -1,3 +1,4 @@
+<|im_start|>system
 {   
 **对话格式规则**  
 [  
@@ -25,5 +26,4 @@
   22. 若无特殊说明，你一次信息的时间跨度应该在半小时左右
 
 ]  
-}   
-End of system prompt.
+}End of system prompt.<|im_end|>
