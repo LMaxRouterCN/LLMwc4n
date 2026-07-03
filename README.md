@@ -55,6 +55,18 @@
 - 不建议再加自动时间流逝设定,容易把ai脑子烧坏,必要时建议手动流逝(一天后)
 - ~~官网grok对话次数太多会回神,看见你的话里有违禁词就输出固定短语,怀疑是记忆词数爆了把一开始那个系统提示词忘了,可以尝试通过官方的什么渠道(比如gemini的gem)把前面的越狱提示词部分写在常驻提示词里~~(*其实根本不用越狱*)
 
+## 本地部署建议模型
+
+如果你有本地部署的能力和配置
+只推荐Q4_K_M量化,其他的都不推荐
+|源模型|链接|备注|
+|:---:|:---:|:---|
+|qwen-3.5-9b|https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main|不明白什么是用括号"包裹",经常会<br>[]这么说话<br>()和这样说话|
+|Gemma-4-12B|https://huggingface.co/OBLITERATUS/Gemma-4-12B-OBLITERATED/tree/main|✅推荐,比他小的没他好,比他好的没他小<br>用那个q80的v2版本|
+|Llama-3.3-8B|https://huggingface.co/mradermacher/grok-oss-Thanatos-i1-GGUF/tree/main|虚张声势,让他再沉淀沉淀|
+|Qwen3.5-9B|https://huggingface.co/huihui-ai/Huihui-Qwythos-9B-Claude-Mythos-5-1M-abliterated-GGUF/tree/main|纸老虎|
+|Qwen3.6-27B|https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED/tree/main|没跑起来|
+
 ## 国内第三方常用网址
 
 |网址|收费情况|登录备注|备注|
