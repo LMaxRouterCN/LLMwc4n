@@ -58,7 +58,7 @@
 ## 本地部署建议模型
 
 如果你有本地部署的能力和配置
-只推荐Q4_K_M量化,其他的都不推荐
+>只推荐Q4_K_M量化,其他的都不推荐
 |源模型|链接|备注|
 |:---:|:---:|:---|
 |qwen-3.5-9b|https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main|不明白什么是用括号"包裹",经常会<br>[]这么说话<br>()和这样说话|
