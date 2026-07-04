@@ -62,11 +62,29 @@
 
 |源模型|链接|备注|
 |:---:|:---:|:---|
-|qwen-3.5-9b|https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main|不明白什么是用括号"包裹",经常会<br>[]这么说话<br>()和这样说话|
-|Gemma-4-12B|https://huggingface.co/OBLITERATUS/Gemma-4-12B-OBLITERATED/tree/main|✅推荐,比他小的没他好,比他好的没他小<br>用那个q80的v2版本|
-|Llama-3.3-8B|https://huggingface.co/mradermacher/grok-oss-Thanatos-i1-GGUF/tree/main|虚张声势,让他再沉淀沉淀|
+|Qwen3.5-9B|https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main|基础的|
+|Gemma-4-12B|https://huggingface.co/OBLITERATUS/Gemma-4-12B-OBLITERATED/tree/main|✅推荐<br>比他小的没他好,比他好的没他小<br>用那个q80的v2版本|
+|Llama-3.3-8B|https://huggingface.co/mradermacher/grok-oss-Thanatos-i1-GGUF/tree/main|不会角色扮演,只适合对话|
 |Qwen3.5-9B|https://huggingface.co/huihui-ai/Huihui-Qwythos-9B-Claude-Mythos-5-1M-abliterated-GGUF/tree/main|纸老虎|
 |Qwen3.6-27B|https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED/tree/main|没跑起来|
+|Qwen3.5-9B|https://huggingface.co/mradermacher/Qwable-9B-Claude-Fable-5-OBLITERATED-i1-GGUF/tree/main|✅推荐<br>显存内存比较小的可以用这个,还不错,(温度5说话像(旁白也像)希尔薇)|
+|Qwen3.5-9B|https://huggingface.co/DavidAU/Qwen3.5-9B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING-MAX-NEOCODE-Imatrix-GGUF/tree/main|旁白有点短,宣传大于实际,没体验到多牛逼|
+
+*qwen3.5-9b模型通病:*
+经常会
+>[]这么说话
+>()和这样说话
+
+### 推荐采样参数
+
+温度: 0.8-5
+Top P: 0.9-0.95
+Top K: 0
+重复惩罚: 1.1
+存在惩罚: 0.1
+Min P: 0.05
+
+>不同模型基本都一样,差不了太多,温度不要太低,高了没什么事
 
 ## 国内第三方常用网址
 
