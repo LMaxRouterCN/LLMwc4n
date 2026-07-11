@@ -64,7 +64,7 @@
 |:---:|:---:|:---|
 |Qwen3.5-9B|https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main|基础的|
 |Gemma-4-12B|https://huggingface.co/OBLITERATUS/Gemma-4-12B-OBLITERATED/tree/main|✅推荐<br>比他小的没他好,比他好的没他小<br>用那个q80的v2版本|
-|Llama-3.3-8B|https://huggingface.co/mradermacher/grok-oss-Thanatos-i1-GGUF/tree/main|不会角色扮演,只适合对话|
+|Llama-3.3-8B|https://huggingface.co/mradermacher/grok-oss-Thanatos-i1-GGUF/tree/main|不会角色扮演,只适合对话,而且没有思考模式|
 |Qwen3.5-9B|https://huggingface.co/huihui-ai/Huihui-Qwythos-9B-Claude-Mythos-5-1M-abliterated-GGUF/tree/main|纸老虎|
 |Qwen3.6-27B|https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED/tree/main|没跑起来|
 |Qwen3.5-9B|https://huggingface.co/mradermacher/Qwable-9B-Claude-Fable-5-OBLITERATED-i1-GGUF/tree/main|✅推荐<br>显存内存比较小的可以用这个,还不错,(温度5说话像(旁白也像)希尔薇)|
