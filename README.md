@@ -68,7 +68,7 @@
 |Qwen3.5-9B|https://huggingface.co/huihui-ai/Huihui-Qwythos-9B-Claude-Mythos-5-1M-abliterated-GGUF/tree/main|纸老虎|
 |Qwen3.6-27B|https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED/tree/main|没跑起来|
 |Qwen3.5-9B|https://huggingface.co/mradermacher/Qwable-9B-Claude-Fable-5-OBLITERATED-i1-GGUF/tree/main|✅推荐<br>显存内存比较小的可以用这个,还不错,(温度5说话像(旁白也像)希尔薇)|
-|Qwen3.5-9B|https://huggingface.co/DavidAU/Qwen3.5-9B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING-MAX-NEOCODE-Imatrix-GGUF/tree/main|旁白有点短,宣传大于实际,没体验到多牛逼|
+|Qwen3.5-9B|https://huggingface.co/DavidAU/Qwen3.5-9B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING-MAX-NEOCODE-Imatrix-GGUF/tree/main|适合双人对话,写文旁白有点短|
 
 *qwen3.5-9b模型通病:*<br>
 经常会
@@ -90,8 +90,8 @@ Min P: 0.05<br>
 
 |网址|收费情况|登录备注|备注|
 |:---:|:---:|:---:|:---|
-|https://www.wenxiaobai.com/|大量免费(暂时没试出额度)+付费|可选登录,登录后可保存聊天记录|模型仅有deepseek,非原版,有特调,未知训练参数量,智商较低,10月11日测试网站端貌似加了敏感词屏蔽,基本用不了了,app端还可以用|
-|https://deepinfra.com/chat|无限免费+付费|不建议登录,不保存聊天记录,登录后收费|❌貌似已经死了<br/>参数可调整,免费模型较少收费模型超级全|
+|https://www.wenxiaobai.com/|少量免费+付费|可选登录,登录后可保存聊天记录|❌开始圈钱了不建议用,(deepseekv4flash你都圈?)|
+|https://deepinfra.com/chat|无限免费+付费|不建议登录,不保存聊天记录,登录后收费|❌死差不多了,有cloudflare人机验证<br/>参数可调整,免费模型较少收费模型超级全|
 |https://www.techopens.com/|少量限次免费+付费|必需登录,微信扫码登录|模型很全,以前有末端敏感词屏蔽,最近貌似缺钱了~~终于决定走这条路了~~,在b站布置了大量用r18内容引流的广告且基本上去除了所有模型的敏感词屏蔽|
 |https://chatmoe.cn/|貌似无限免费|无登录,短暂保存聊天记录|❌很乱不建议用了<br/>模型是glm4.5,开了不安全模式是gemini|
 
