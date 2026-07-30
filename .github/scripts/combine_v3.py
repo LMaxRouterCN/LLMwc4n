@@ -481,35 +481,22 @@ class TreeBranchCombiner:
         1. HIDE_MARKER: 忽略标记为隐藏的文件
         2. INCLUDE_EXTENSION_IN_NAME: 是否包含扩展名
         3. FILENAME_SEPARATOR: 文件名连接符
-        4. 重定向文件显示 (a=b) 格式
         """
         # 过滤掉标记为隐藏的文件
         visible_files = [f for f in files if not f.should_hide]
         
         if not visible_files:
-            # 如果所有文件都隐藏，使用第一个文件名
             visible_files = [files[0]]
         
-        # 构建基础文件名
+        # 构建基础文件名（所有标签都已去掉）
         name_parts = []
         for file_info in visible_files:
-            # 检查是否有重定向
-            if file_info.kill_tag:
-                # 显示重定向格式
-                dst_tags = file_info.tags - {file_info.kill_tag}
-                dst_tag_str = ','.join(sorted(dst_tags))
-                redirect_str = f"({file_info.kill_tag}={dst_tag_str})"
-                
-                if self.config.include_extension_in_name:
-                    name_parts.append(f"{redirect_str}{file_info.base_name}")
-                else:
-                    name_parts.append(f"{redirect_str}{file_info.name_no_ext}")
+            if self.config.include_extension_in_name:
+                # base_name 已经去掉了标签
+                name_parts.append(file_info.base_name)
             else:
-                # 正常文件
-                if self.config.include_extension_in_name:
-                    name_parts.append(file_info.base_name)
-                else:
-                    name_parts.append(file_info.name_no_ext)
+                # name_no_ext 也已经去掉了标签
+                name_parts.append(file_info.name_no_ext)
         
         # 使用配置的连接符连接
         base_name = self.config.filename_separator.join(name_parts)
@@ -518,6 +505,7 @@ class TreeBranchCombiner:
         extension = self._determine_extension(files)
         
         return f"{base_name}{extension}"
+
     
     def _determine_extension(self, files: List[FileInfo]) -> str:
         """
