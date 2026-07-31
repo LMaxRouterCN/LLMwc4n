@@ -70,7 +70,7 @@
 |Qwen-3.6-27B|https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED/tree/main|没跑起来|
 |Qwen-3.5-9B|https://huggingface.co/mradermacher/Qwable-9B-Claude-Fable-5-OBLITERATED-i1-GGUF/tree/main|还不错,(温度5说话像(旁白也像)希尔薇)|
 |Qwen-3.5-9B|https://huggingface.co/DavidAU/Qwen3.5-9B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING-MAX-NEOCODE-Imatrix-GGUF/tree/main|✅推荐<br>适合双人对话,写文旁白有点短|
-|GLM-4.6V-Flash|https://huggingface.co/AliBilge/Huihui-GLM-4.6V-Flash-abliterated/tree/main|思考时间长,普通对话60s+,写文120s+,(上面那些qwen3.59b在20-30s)|
+|GLM-4.6V-Flash|https://huggingface.co/AliBilge/Huihui-GLM-4.6V-Flash-abliterated/tree/main|思考时间长,对话效果挺好,但是不适合写长文故事,除了这个缺点就是太慢,普通对话60s+,写文120s+,(上面那些qwen3.59b在20-30s)|
 
 *qwen3.5-9b模型通病:*<br>
 经常会
