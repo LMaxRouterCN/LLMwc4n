@@ -59,9 +59,11 @@
 ## 本地部署建议模型
 
 如果你有本地部署的能力和配置
->只推荐Q4_K_M量化,其他的都不推荐
->配置:cpu5600,内存16-32g,6-8g显存
+
+>只推荐Q4_K_M量化,其他的都不推荐<br>
+>配置:cpu5600,内存16-32g,6-8g显存<br>
 >速度8-11token/s
+
 |源模型|链接|备注|
 |:---:|:---:|:---|
 |Qwen-3.5-9B|https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main|基础的|
