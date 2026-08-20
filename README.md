@@ -155,8 +155,20 @@ Min P:0.05<br>
 
 ---
 
-各个ai的性格可以看图(很旧的图了) ↓↓
+## Star History
+
+<a href="https://www.star-history.com/?repos=LMaxRouterCN%2FLLMwc4n&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LMaxRouterCN/LLMwc4n&type=date&theme=dark&legend=top-left&sealed_token=_ENpaoYxBDyMdWdx0Bq99Q4OIqQ8CI9DWW8jeGPzSBz7-RnCYt2hJrgrNKnfW-3VKIBZLJIHzRdS5rANCipDprPSsVJKCaUQ4b6FawioXZO3CbWYdspdsRtZ11R0VlHBTGtSE7HhJqDbCmm5XLsK1hq4gzK3az1hB7-qd4_uX-iXIFwsC_7bbYNg5Fri" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LMaxRouterCN/LLMwc4n&type=date&legend=top-left&sealed_token=_ENpaoYxBDyMdWdx0Bq99Q4OIqQ8CI9DWW8jeGPzSBz7-RnCYt2hJrgrNKnfW-3VKIBZLJIHzRdS5rANCipDprPSsVJKCaUQ4b6FawioXZO3CbWYdspdsRtZ11R0VlHBTGtSE7HhJqDbCmm5XLsK1hq4gzK3az1hB7-qd4_uX-iXIFwsC_7bbYNg5Fri" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LMaxRouterCN/LLMwc4n&type=date&legend=top-left&sealed_token=_ENpaoYxBDyMdWdx0Bq99Q4OIqQ8CI9DWW8jeGPzSBz7-RnCYt2hJrgrNKnfW-3VKIBZLJIHzRdS5rANCipDprPSsVJKCaUQ4b6FawioXZO3CbWYdspdsRtZ11R0VlHBTGtSE7HhJqDbCmm5XLsK1hq4gzK3az1hB7-qd4_uX-iXIFwsC_7bbYNg5Fri" />
+ </picture>
+</a>
+
 ## 图片展示 (官网)
+
+各个ai的性格可以看图(很旧的图了) ↓↓
+
 ![2025-07-15-03-54-15](https://github.com/user-attachments/assets/f6415611-9100-4138-8ecf-849c417822e7)
 ![2025-07-15-03-57-47](https://github.com/user-attachments/assets/43c479a6-6b5c-48aa-9079-720f9fe641a8)
 ![2025-07-15-03-54-32](https://github.com/user-attachments/assets/09e9261c-3350-464f-833f-beb009907737)
