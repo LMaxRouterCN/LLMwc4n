@@ -67,17 +67,20 @@ gpt/claude打不穿是因为这两个网站自己就会给模型一个超长的�
 >配置:cpu5600,内存16-32g,6-8g显存<br>
 >速度8-11token/s
 
+>按我找到的时间排序
+
 |源模型|链接|备注|
 |:---:|:---:|:---|
-|Qwen-3.5-9B|[](https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main)|基础的|
-|Gemma-4-12B|[](https://huggingface.co/OBLITERATUS/Gemma-4-12B-OBLITERATED/tree/main)|用那个q8的v2版本|
-|Llama-3.3-8B|[](https://huggingface.co/mradermacher/grok-oss-Thanatos-i1-GGUF/tree/main)|不会角色扮演,只适合对话,而且没有思考模式|
-|Qwen-3.5-9B|[](https://huggingface.co/huihui-ai/Huihui-Qwythos-9B-Claude-Mythos-5-1M-abliterated-GGUF/tree/main)|纸老虎|
-|Qwen-3.6-27B|[](https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED/tree/main)|没跑起来|
-|Qwen-3.5-9B|[](https://huggingface.co/mradermacher/Qwable-9B-Claude-Fable-5-OBLITERATED-i1-GGUF/tree/main)|还不错,(温度5说话像(旁白也像)希尔薇)|
-|Qwen-3.5-9B|[](https://huggingface.co/DavidAU/Qwen3.5-9B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING-MAX-NEOCODE-Imatrix-GGUF/tree/main)|✅推荐<br>适合双人对话,写文旁白有点短|
-|GLM-4.6V-Flash|[](https://huggingface.co/AliBilge/Huihui-GLM-4.6V-Flash-abliterated/tree/main)|思考时间长,对话效果挺好,但是不适合写长文故事,除了这个缺点就是太慢,普通对话60s+,写文120s+,(上面那些qwen3.59b在20-30s)|
-|Qwen-3.5-9B|[Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF](https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF/tree/main)||
+|Qwen-3.5-9B|[Qwen3.5-9B-Uncensored-HauhauCS-Aggressive](https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive/tree/main)|基础的|
+|Gemma-4-12B|[Gemma-4-12B-OBLITERATED](https://huggingface.co/OBLITERATUS/Gemma-4-12B-OBLITERATED/tree/main)|用那个q8的v2版本|
+|Llama-3.3-8B|[grok-oss-Thanatos-i1-GGUF](https://huggingface.co/mradermacher/grok-oss-Thanatos-i1-GGUF/tree/main)|不会角色扮演,只适合对话,而且没有思考模式|
+|Qwen-3.5-9B|[Huihui-Qwythos-9B-Claude-Mythos-5-1M-abliterated-GGUF](https://huggingface.co/huihui-ai/Huihui-Qwythos-9B-Claude-Mythos-5-1M-abliterated-GGUF/tree/main)|纸老虎|
+|Qwen-3.6-27B|[Qwen3.6-27B-OBLITERATED](https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED/tree/main)|没跑起来|
+|Qwen-3.5-9B|[Qwable-9B-Claude-Fable-5-OBLITERATED-i1-GGUF](https://huggingface.co/mradermacher/Qwable-9B-Claude-Fable-5-OBLITERATED-i1-GGUF/tree/main)|还不错,(温度5说话像(旁白也像)希尔薇)|
+|Qwen-3.5-9B|[Qwen3.5-9B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING-MAX-NEOCODE-Imatrix-GGUF](https://huggingface.co/DavidAU/Qwen3.5-9B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING-MAX-NEOCODE-Imatrix-GGUF/tree/main)|✅推荐<br>适合双人对话,写文有点短|
+|GLM-4.6V-Flash|[Huihui-GLM-4.6V-Flash-abliterated](https://huggingface.co/AliBilge/Huihui-GLM-4.6V-Flash-abliterated/tree/main)|思考时间长,对话效果挺好,但是不适合写长文故事,除了这个缺点就是太慢,普通对话60s+,写文120s+,(上面那些qwen3.59b在20-30s)|
+|Qwen-3.5-9B|[Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF](https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF/tree/main)|没啥特殊的|
+|Qwen-3.8-27B|[Qwen3.8-27B-Dominatrix-i1-GGUF](https://huggingface.co/mradermacher/Qwen3.8-27B-Dominatrix-i1-GGUF/tree/main?not-for-all-audiences=true)|🟢24g显存推荐<br>效果最好,但是默认配置只能跑2t/s|
 
 *qwen2.5,qwen3.5-9b模型通病:*<br>
 经常会
