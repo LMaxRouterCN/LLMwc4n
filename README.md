@@ -81,6 +81,7 @@ gpt/claude打不穿是因为这两个网站自己就会给模型一个超长的�
 |GLM-4.6V-Flash|[Huihui-GLM-4.6V-Flash-abliterated](https://huggingface.co/AliBilge/Huihui-GLM-4.6V-Flash-abliterated/tree/main)|思考时间长,对话效果挺好,但是不适合写长文故事,除了这个缺点就是太慢,普通对话60s+,写文120s+,(上面那些qwen3.59b在20-30s)|
 |Qwen-3.5-9B|[Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF](https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF/tree/main)|没啥特殊的|
 |Qwen-3.8-27B|[Qwen3.8-27B-Dominatrix-i1-GGUF](https://huggingface.co/mradermacher/Qwen3.8-27B-Dominatrix-i1-GGUF/tree/main?not-for-all-audiences=true)|🟢24g显存推荐<br>效果最好,但是默认配置只能跑2t/s|
+|Qwen3.6-35B-A3B|[Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-MTP-GGUF](https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-MTP-GGUF)<br>[Qwen3.6-35B-A3B-uncensored-heretic-Native-MTP-Preserved-i1-GGUF](https://huggingface.co/mradermacher/Qwen3.6-35B-A3B-uncensored-heretic-Native-MTP-Preserved-i1-GGUF/tree/main)<br>[Huihui-Qwen3.6-35B-A3B-abliterated-i1-GGUF](https://huggingface.co/mradermacher/Huihui-Qwen3.6-35B-A3B-abliterated-i1-GGUF/tree/main)|说实话也就比3.5-9b强一点点,就是快,默认配置能跑20t/s,但是占内存多,内存小于16g的不要用,而且ttft比较慢,0.20-10-16s|
 
 *qwen2.5,qwen3.5-9b模型通病:*<br>
 经常会
@@ -113,6 +114,8 @@ Min P:0.05-0.1<br>
 <details>
 
 <summary>判断ai数据的截止日期</summary>
+
+**以前写的,现在已经过时了!**
 
 开两个新对话关闭联网搜索分别问一个问题,
 
